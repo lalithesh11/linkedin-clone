@@ -1,0 +1,47 @@
+.header{
+    position: sticky;
+    top: 0;
+   display: flex;
+   justify-content: space-evenly;
+   border-bottom: 0.1px solid lightgray;
+   padding-top: 10px;
+   padding-bottom: 10px;
+   width: 100%;
+   z-index: 999;
+   background-color: white;
+}
+
+
+.header__left{
+   display: flex;
+}
+
+
+/* targeting the image inside the header__left class*/
+.header__left > img{
+    /* when we resizing the image, it will keep the aspect ratio by using the below attribute */
+    object-fit: contain;
+    height: 40px;
+    margin-right: 10px;
+  }
+
+.header__search{
+    padding: 10px;
+   display: flex;
+   align-items: center;
+   border-radius: 5px;
+   height: 22px;
+   color: gray;
+   background-color: #eef3f8;
+}
+
+.header__search > input{
+    /* to get the invisible input box */
+    outline: none;
+    border: none;
+    background: none;
+}
+
+.header__right{
+    display: flex;
+}

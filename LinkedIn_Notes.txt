@@ -1,0 +1,377 @@
+>>Go to the required folder and run below command
+  -->C:\Users\MADHAVI\Lalithesh\Clones\Redux+ReactJS\LinkedIn>npx create-react-app linkedin-clone --template redux
+
+>>Once react app created with the redux template, go to the created react folder, using below command
+  -->C:\Users\MADHAVI\Lalithesh\Clones\Redux+ReactJS\LinkedIn>cd linkedin-clone
+
+>>Now, go to the firebase.google.com and create a project. Basically, firebase is a google platform, where they will provide the Authentication, backend,DB & Hosting.
+
+>>Once, project was created, go to the Build->Cloud Firestore->Create database->Start in Test mode->Next->Enable
+
+>>To open the VS code from cmd, just type code . or for insiders edition code-insiders .
+
+>>Now, we can give yarn start or npm start. yarn is quite clean, but i dont have it so npm start so that react/redux app will run.
+
+>>Now go to firebase, Rules and delete the if
+          request.time < timestamp.date(2021, 2, 21); to avoid the notification regarding firbase rules are expirig.We can delete this at this point of time, but not for production.
+
+>>After removing, just put the semicolon next to write by removing colon(:), the final output will be like below. And click on Publish.
+   rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write;
+    }
+  }
+}
+
+
+>>Now, go to the Authentication and click on Get Started.Select Sign-in-method and click on Email/Password -> Enable -> Save.
+
+>>Now select gear icon, next to Project Overview and select Project Settings and scroll down, we have to select the type of app(ios,andriod,web) we are building.
+
+>>Provide the nickname like linkedin-clone and check the Also set up Firebase Hosting->RegisterApp. This will allow us to deploy the app.
+
+>>We no need to copy the displaying scripts in our App, because we are using react-redux app.Simply Click Next.
+
+>>We can install the Firebase CLI/Firebase tools by using the below command.We are installing globally.
+  -->npm install -g firebase-tools
+
+>>To check firebase was installed or to use the firebase options/tools, simply type firebase in cmd/terminal.
+
+
+>>Now, come to the browser and select Next.We can skip this step(4. Deploy to Firebase Hosting). We will come to this step at last, so click on Continue to console.
+
+>>Select Config under Firebase SDK snippet and can see the firebaseConfig.
+
+>>We will do the cleanup process in the VS Code,
+  -->Delete-- App.test.js, logo.svg, setupTests.js
+
+>>Go to the App.js and remove everything under header tag including header tag.At top we have logo & Counter was imported, we can delete that.
+Also change the className to app from App.
+
+>>Now, go to App.css and remove the whole code.
+
+>>Go to index.css and give margin as 0 to avoid the spaces.
+
+>>Install the extension ES7 React/Redux/GraphQL/React-Native snippets
+
+>>If we give ctrl+Spacebar the component will automatically be imported.
+
+>>Refer this link for icons - https://www.flaticon.com/
+
+--------------------->while defining the sendPost function, we are performing the below step<------------------------
+
+>>Go to firebase and copy the config data and paste in firebase.js file
+
+>>Now install the firebase in our project. -->npm i firebase
+
+>>We are using NoSQL type DB in the firestore.For that click on Cloud Firestore.
+
+----------------------->After completing the Feed sction/posts<-----------------------------
+
+>>We are doing the redux part now.
+
+>>Delete the counter.module.css file from the features/counter path as we not required. And move the Counter.js & counterSlice.js to the features folder.
+ And delete the Counter folder.
+
+>>The purpose of Redux is, whenever we have a React App, we will have the nested components and if we need to access the users in many different places,
+ rather than passing as a prop to individual components. If we pass as an prop to individual components, we will be having a problem called Prop drilling.
+Prop drilling is a big problem, it will make app hard to maintain and makes app hard to build.So, to avoid this we will use the Redux.
+
+>>Redux will allow us to ease the flow of the data inside of an App.
+
+>>We required HTML, CSS & JS to create an App. By combining all these with extra features, we have a React to build App. And Redux is like an Data outer 
+layer for an React App to manage the data.
+
+>>Go to store.js file, and replace the counter with user wherever it is.
+
+>>We can delete the Counter.js file.
+
+>>Rename the counterSlice.js as userSlice.js
+
+>>We have not required the below code, which is next to=> export const { increment, decrement, incrementByAmount } = user.actions;
+
+// The function below is called a thunk and allows us to perform async logic. It
+// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
+// will call the thunk with the `dispatch` function as the first argument. Async
+// code can then be executed and other actions can be dispatched
+export const incrementAsync = amount => dispatch => {
+  setTimeout(() => {
+    dispatch(incrementByAmount(amount));
+  }, 1000);
+};
+
+
+>>In React, for suppose we have an App.js, Login.js, Feed.js(Post.js is inside a Feed.js).....The mail file is App.js which will render all the components.Initially, it will 
+render the login.js file,once user Login, we will have the user data in Login.js file. In case if we want to access the user data in Post.js, we have to pass
+the user data to App.js then Feed.js and then Post.js, which is a very hard thing to do, we can call this problem as Prop drilling. To avoid this, we have a
+Redux which is like a Data Outer layer for the React App. So, we simply push the data of any component to the Redux/outer layer and from thier any 
+component can pull the data to perform the required operations. So, we can avoid this tree type of accessing the data(passing of props between components)
+ by using the Redux.
+
+>>Instead of mainating all the components data in a single Redux/huge data layer, we can mainatin as a separate slices for each component.It means user data
+will go to userSlice.(Refer Redux_Overview image file inside the C:\Users\MADHAVI\Lalithesh\Clones\Redux+ReactJS for this point & above point).
+
+>>We have to dispatch an action from the main component to change/update the state inside a Slice/Redux.For suppose to change/update the user inside a 
+userSlice, we have to dispatch an action from the Login component.
+
+>>the pulling in the data is happening through the selectors (export const selectUser = state => state.user.user;)
+
+>>Now, go to the Redux tool inside a chrome browser.(if not available install the redux dev tools extension and refresh the page and inspect it again, 
+it should show/otherwise reopen the browser).
+
+>>Redux devtools is a very powerful tool, click on inspect and then click on Redux and then state to check the state of our Redux/slice.
+
+>>Now go to App.js and pull the userSlice using selector.
+
+>>When user registering the app, we are creating the user using firebase auth. At the same time we are pushing the user registered data to the reduxstore/
+userSlice, so that user data will be available in userSlice. So we have written a condition in App.js like, if user available in userSlice then only we will
+display the App functionalities(basically the pages after the successfully login).  
+
+>>Go to the redux tool and can check the state, differnce(previous & current state), Action(dispatched action).
+
+>>But we have problem like if we reload the page again we will get back to the login page(this is happened because of firebase), 
+but user has registered/logged in suucessfully. So, we have to avoid this, go to App.js and implement auth.onAuthStateChanged listner, so that it will listen
+the current authentication changes, so it detects the user has alreday logged in and it wont come out/show the login page. we have defined this listener
+inside a useEffect() hook, so that this piece of data will execute after the App rendering.
+
+>>Install React Dlip move->npm i react-flip-move, we can call this as refs on react docs. Using this refs, we can implement the animation kind of things in 
+the application.
+
+<<<<<<<<<<<<<<<<<<<<<<For deploying into the Firebase>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+>>Make sure you have logged in firebase in browser.Just execute the ->firebase login in the VS terminal because we ran the app on cmd.If not working in 
+VS code, open the new cmd and execute there
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+C:\Users\MADHAVI\Lalithesh\Clones\Redux+ReactJS\LinkedIn\linkedin-clone>firebase login
+i  Firebase optionally collects CLI usage and error reporting information to help improve our products. Data is collected in accordance with Google's privacy policy (https://policies.google.com/privacy) and is not used to identify you.
+
+? Allow Firebase to collect CLI usage and error reporting information? Yes
+i  To change your data collection preference at any time, run `firebase logout` and log in again.
+
+Visit this URL on this device to log in:
+https://accounts.google.com/o/oauth2/auth?client_id=563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com&scope=email%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloudplatformprojects.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffirebase%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform&response_type=code&state=571533957&redirect_uri=http%3A%2F%2Flocalhost%3A9005
+
+Waiting for authentication...
+
++  Success! Logged in as lalithesh.11@gmail.com
+
+C:\Users\MADHAVI\Lalithesh\Clones\Redux+ReactJS\LinkedIn\linkedin-clone>
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+>>Now give. ->firebase init , it will ask us which features we want to select for this folder/project. if we press space we can select/deselect the feature,
+up & down arrow to move across the features and enter is like confirming the faetures
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+C:\Users\MADHAVI\Lalithesh\Clones\Redux+ReactJS\LinkedIn\linkedin-clone>firebase init
+
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\MADHAVI\Lalithesh\Clones\Redux+ReactJS\LinkedIn\linkedin-clone
+
+? Are you ready to proceed? Yes
+? Which Firebase CLI features do you want to set up for this folder? Press Space to select features, then Enter to confirm your choices.
+>( ) Database: Configure Firebase Realtime Database and deploy rules
+ ( ) Firestore: Deploy rules and create indexes for Firestore
+ ( ) Functions: Configure and deploy Cloud Functions
+ ( ) Hosting: Configure and deploy Firebase Hosting sites
+ ( ) Storage: Deploy Cloud Storage security rules
+ ( ) Emulators: Set up local emulators for Firebase features
+ ( ) Remote Config: Get, deploy, and rollback configurations for Remote Config 
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+>>Select the Hosting, now select the Use an Existing project
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+? Which Firebase CLI features do you want to set up for this folder? Press Space to select features, then Enter to confirm your choices. Hosting: Configure a
+nd deploy Firebase Hosting sites
+
+=== Project Setup
+
+First, let's associate this project directory with a Firebase project.
+You can create multiple project aliases by running firebase use --add,
+but for now we'll just set up a default project.
+
+? Please select an option: (Use arrow keys)
+> Use an existing project
+  Create a new project
+  Add Firebase to an existing Google Cloud Platform project
+  Don't set up a default project
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+>>Select the required project,
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+? Please select an option: Use an existing project
+? Select a default Firebase project for this directory: (Use arrow keys)
+> linkedin-clone-8cb27 (linkedin-clone) 
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+>>Now, it will ask us what we want to use as public directoty, remove the public and type build
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+i  Using project linkedin-clone-8cb27 (linkedin-clone)
+
+=== Hosting Setup
+
+Your public directory is the folder (relative to your project directory) that
+will contain Hosting assets to be uploaded with firebase deploy. If you
+have a build process for your assets, use your build's output directory.
+
+? What do you want to use as your public directory? build
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+>>? Configure as a single-page app (rewrite all urls to /index.html)? Yes
+
+>>give n for github
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+? Set up automatic builds and deploys with GitHub? No
++  Wrote build/index.html
+
+i  Writing configuration info to firebase.json...
+i  Writing project information to .firebaserc...
+
++  Firebase initialization complete!
+
+C:\Users\MADHAVI\Lalithesh\Clones\Redux+ReactJS\LinkedIn\linkedin-clone>
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+>>Now, give npm run build
+  -->C:\Users\MADHAVI\Lalithesh\Clones\Redux+ReactJS\LinkedIn\linkedin-clone>npm run build
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+C:\Users\MADHAVI\Lalithesh\Clones\Redux+ReactJS\LinkedIn\linkedin-clone>npm run build
+
+> linkedin-clone@0.1.0 build C:\Users\MADHAVI\Lalithesh\Clones\Redux+ReactJS\LinkedIn\linkedin-clone
+> react-scripts build
+
+Creating an optimized production build...
+Compiled successfully.
+
+File sizes after gzip:
+
+  300.03 KB  build\static\js\2.53f93f6c.chunk.js
+  2.97 KB    build\static\js\main.dd41ab49.chunk.js
+  1.4 KB     build\static\css\main.1f577f00.chunk.css
+  780 B      build\static\js\runtime-main.968ae746.js
+
+The project was built assuming it is hosted at /.
+You can control this with the homepage field in your package.json.
+
+The build folder is ready to be deployed.
+You may serve it with a static server:
+
+  npm install -g serve
+  serve -s build
+
+Find out more about deployment here:
+
+  https://cra.link/deployment
+
+
+C:\Users\MADHAVI\Lalithesh\Clones\Redux+ReactJS\LinkedIn\linkedin-clone>
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+>>Now deploy to firebase
+  -->firebase deploy
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+C:\Users\MADHAVI\Lalithesh\Clones\Redux+ReactJS\LinkedIn\linkedin-clone>firebase deploy
+
+=== Deploying to 'linkedin-clone-8cb27'...
+
+i  deploying hosting
+i  hosting[linkedin-clone-8cb27]: beginning deploy...
+i  hosting[linkedin-clone-8cb27]: found 20 files in build
++  hosting[linkedin-clone-8cb27]: file upload complete
+i  hosting[linkedin-clone-8cb27]: finalizing version...
++  hosting[linkedin-clone-8cb27]: version finalized
+i  hosting[linkedin-clone-8cb27]: releasing new version...
++  hosting[linkedin-clone-8cb27]: release complete
+
++  Deploy complete!
+
+Project Console: https://console.firebase.google.com/project/linkedin-clone-8cb27/overview
+Hosting URL: https://linkedin-clone-8cb27.web.app
+
+C:\Users\MADHAVI\Lalithesh\Clones\Redux+ReactJS\LinkedIn\linkedin-clone>
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
