@@ -24,6 +24,6 @@ export const { login,logout } = userSlice.actions;
 
 // As we discussed, the pulling in the data is happening through the selectors
 // selectors
-export const selectUser = state => state.user.user;
+export const selectUser = (state) => state.user.user;
 
 export default userSlice.reducer;

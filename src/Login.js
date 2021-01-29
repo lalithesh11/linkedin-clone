@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./Login.css";
+import "./Login.css";   
 import { auth } from "./firebase";
 import { useDispatch } from 'react-redux';
 import { login } from './features/userSlice';
@@ -15,8 +15,8 @@ function Login() {
     const dispatch=useDispatch();
 
     const loginToApp = (e) => {
-        console.log("Inside loginToApp function");
         e.preventDefault();
+        console.log("Inside loginToApp function");
 
         auth.signInWithEmailAndPassword(email,password)
         .then((userAuth)=>{
@@ -34,7 +34,7 @@ function Login() {
     const register = () => {
         console.log("Inside register function");
         if(!name){
-            return alert("Please enter a full name");
+            return alert("Please enter a full name!");
         }
 
         // we are passing the email & password as parameters and the auth function will create a user at backend.
@@ -54,9 +54,10 @@ function Login() {
                     uid:userAuth.user.uid,
                     displayName:name,
                     photoUrl:profilePic
-               }))
+               })
+               );
             })
-        }).catch((error)=>alert(error))
+        }).catch((error)=>alert(error.message))
      }
 
     return (
@@ -75,6 +76,7 @@ function Login() {
                 <button type="submit" onClick={loginToApp}>Sign In</button>
             </form>
 
+            {/*{" "}, for gap between Not a member? & Register Now    */}
             <p>Not a member?{" "}
                 <span className="login__register" onClick={register}>Register Now</span>
             </p>

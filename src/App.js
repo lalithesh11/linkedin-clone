@@ -16,7 +16,7 @@ function App() {
   const dispatch=useDispatch();
 
 useEffect(()=>{
-  auth.onAuthStateChanged((userAuth)=>{
+  auth.onAuthStateChanged(userAuth=>{
     if(userAuth){
       // user logged in
       dispatch(login({
@@ -31,8 +31,8 @@ useEffect(()=>{
       //  user logged out
       dispatch(logout());
   }
-  })
-})
+  });
+},[]);
 
   return (
     <div className="app">
