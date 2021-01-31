@@ -1,6 +1,6 @@
 # linkedin-clone
 
-[Demo](https://linkedin-clone-8cb27.web.app/)
+[Website](https://linkedin-clone-8cb27.web.app/)
 
 ### Overview of the project:
 
